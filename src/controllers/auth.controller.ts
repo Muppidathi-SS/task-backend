@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { addUser, loginUser } from "../services/auth.service";
+import { handleError } from "../utils/error/error-handler";
 
 export const addUserController = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -13,11 +14,7 @@ export const addUserController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.error("API error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
+    return handleError(error, res);
   }
 };
 
@@ -40,18 +37,6 @@ export const loginController = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    if (error instanceof Error && error.message === "INVALID_CREDENTIALS") {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid email or password",
-      });
-    }
-
-    console.error("Login error:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error",
-    });
+    return handleError(error, res);
   }
 };

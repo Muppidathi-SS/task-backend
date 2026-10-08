@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import Routes from "./routes/routes.js";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 
 dotenv.config();
 
@@ -21,6 +23,12 @@ app.get("/", (req, res) => {
     message: "Task Tracker API is running",
   });
 });
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec),
+);
 
 app.use("/api", Routes);
 
