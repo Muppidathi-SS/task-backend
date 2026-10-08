@@ -4,10 +4,10 @@ import {
   addUserController,
   loginController,
 } from "../controllers/auth.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.get("/test", testController);
 /**
  * @swagger
  * /api/auth/register:
@@ -77,5 +77,33 @@ router.post("/auth/register", addUserController);
  *         description: Internal server error
  */
 router.post("/auth/login", loginController);
+
+/**
+ * @swagger
+ * /api/test:
+ *   get:
+ *     summary: Test authenticated API
+ *     tags:
+ *       - Test
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Authentication successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Authentication successful
+ *       401:
+ *         description: Unauthorized
+ */
+router.get("/test", authMiddleware, testController);
 
 export default router;

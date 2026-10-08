@@ -1,18 +1,31 @@
-import swaggerJsdoc from "swagger-jsdoc";
+import swaggerJSDoc from "swagger-jsdoc";
 
-export const swaggerSpec = swaggerJsdoc({
+export const swaggerSpec = swaggerJSDoc({
   definition: {
     openapi: "3.0.0",
+
     info: {
-      title: "Task Backend API",
+      title: "Task Tracker API",
       version: "1.0.0",
-      description: "API documentation for Task Backend",
+      description: "Task Tracker Backend API",
     },
+
     servers: [
       {
         url: "http://localhost:5000",
       },
     ],
+
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
   },
-  apis: ["./src/routes/**/*.ts"],
+
+  apis: ["./src/routes/*.ts"],
 });
