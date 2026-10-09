@@ -1,4 +1,9 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import {
+  addTaskSwagger,
+  authSwagger,
+  testSwagger,
+} from "../swagger/swagger-ui";
 
 export const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -24,6 +29,12 @@ export const swaggerSpec = swaggerJSDoc({
           bearerFormat: "JWT",
         },
       },
+    },
+
+    paths: {
+      ...addTaskSwagger,
+      ...testSwagger,
+      ...authSwagger,
     },
   },
 
