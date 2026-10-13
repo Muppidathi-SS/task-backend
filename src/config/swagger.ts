@@ -2,7 +2,8 @@ import swaggerJSDoc from "swagger-jsdoc";
 import {
   addTaskSwagger,
   authSwagger,
-  getTasksSwagger,
+  deleteTaskSwagger,
+  getTaskSwagger,
   testSwagger,
   updateTaskSwagger,
 } from "../swagger/swagger-ui";
@@ -36,9 +37,12 @@ export const swaggerSpec = swaggerJSDoc({
     paths: {
       ...authSwagger,
       ...testSwagger,
+      ...getTaskSwagger,
       ...addTaskSwagger,
-      ...getTasksSwagger,
-      ...updateTaskSwagger,
+      "/api/tasks/{task_id}": {
+        ...updateTaskSwagger["/api/tasks/{task_id}"],
+        ...deleteTaskSwagger["/api/tasks/{task_id}"],
+      },
     },
   },
 
