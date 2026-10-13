@@ -2,7 +2,9 @@ import swaggerJSDoc from "swagger-jsdoc";
 import {
   addTaskSwagger,
   authSwagger,
+  getTasksSwagger,
   testSwagger,
+  updateTaskSwagger,
 } from "../swagger/swagger-ui";
 
 export const swaggerSpec = swaggerJSDoc({
@@ -32,9 +34,11 @@ export const swaggerSpec = swaggerJSDoc({
     },
 
     paths: {
-      ...addTaskSwagger,
-      ...testSwagger,
       ...authSwagger,
+      ...testSwagger,
+      ...addTaskSwagger,
+      ...getTasksSwagger,
+      ...updateTaskSwagger,
     },
   },
 

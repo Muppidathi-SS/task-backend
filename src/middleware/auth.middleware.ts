@@ -9,7 +9,6 @@ export const authMiddleware = (
   try {
     const authHeader = req.headers.authorization;
 
-    // Token not provided
     if (!authHeader) {
       return res.status(401).json({
         success: false,
@@ -17,8 +16,6 @@ export const authMiddleware = (
       });
     }
 
-    // Expected format:
-    // Authorization: Bearer <token>
     const [type, token] = authHeader.split(" ");
 
     if (type !== "Bearer" || !token) {
@@ -30,7 +27,21 @@ export const authMiddleware = (
 
     const decoded = verifyToken(token);
 
-    req.user = decoded;
+    if (
+      typeof decoded !== "object" ||
+      decoded === null ||
+      !("userId" in decoded) ||
+      typeof decoded.userId !== "string"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid authentication token.",
+      });
+    }
+
+    req.user = {
+      userId: decoded.userId,
+    };
 
     next();
   } catch (error) {
