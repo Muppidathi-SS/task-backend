@@ -4,6 +4,7 @@ import {
   addTask,
   deleteTask,
   getTask,
+  getTaskById,
   updateTask,
 } from "../services/tasks.service";
 import { handleError } from "../utils/error/error-handler";
@@ -68,6 +69,21 @@ export const deleteTaskController = async (req: Request, res: Response) => {
     return res.status(200).json({
       success: true,
       message: "Task Deleted Successfully",
+    });
+  } catch (error) {
+    handleError(error, res);
+  }
+};
+
+export const getTaskByIdController = async (req: Request, res: Response) => {
+  const { task_id } = req.params as { task_id: string };
+  try {
+    const user_id = req.user!.userId;
+    const result = await getTaskById(user_id, task_id);
+    return res.status(200).json({
+      success: true,
+      message: "Task Fetched Successfully",
+      data: result,
     });
   } catch (error) {
     handleError(error, res);

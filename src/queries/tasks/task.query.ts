@@ -24,6 +24,11 @@ SELECT * FROM tasks
 WHERE user_id = $1
 `;
 
+export const GET_TASK_QUERY_BY_ID = `
+SELECT * FROM tasks
+WHERE user_id = $1 and task_id = $2
+`;
+
 export const DELETE_TASK_QUERY = `
 DELETE FROM tasks
 WHERE user_id = $1 and task_id = $2
